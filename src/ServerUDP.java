@@ -31,7 +31,6 @@ public class ServerUDP
 			String m1 = "";
 
 
-
 			byte[] arBuffer = m1.getBytes ();
 
 			envoi = new DatagramPacket (arBuffer, arBuffer.length, dp.getAddress (), dp.getPort ());

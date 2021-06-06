@@ -1,9 +1,6 @@
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
@@ -20,6 +17,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 import org.apache.commons.codec.binary.Base64;
+
 
 public class AsymmetricCryptography 
 {
@@ -59,9 +57,29 @@ public class AsymmetricCryptography
 
     public String decryptText(String msg, PublicKey key)
             throws InvalidKeyException, UnsupportedEncodingException, 
-            IllegalBlockSizeException, BadPaddingException {
+            IllegalBlockSizeException, BadPaddingException,Exception {
         this.cipher.init(Cipher.DECRYPT_MODE, key);
-        return new String(cipher.doFinal(Base64.decodeBase64(msg)), "UTF-8");
+
+        byte[] bytes = Base64.decodeBase64 (msg.getBytes());
+        int inputLen = bytes.length;
+        int offLen = 0;
+        int i = 0;
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        while(inputLen - offLen > 0){
+            byte[] cache;
+            if(inputLen - offLen > 128){
+                cache = this.cipher.doFinal(bytes,offLen,128);
+            }else{
+                cache = this.cipher.doFinal(bytes,offLen,inputLen - offLen);
+            }
+            byteArrayOutputStream.write(cache);
+            i++;
+            offLen = 128 * i;
+
+        }
+        byteArrayOutputStream.close();
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return new String(byteArray);
     }
 
     public static void main(String[] args) throws Exception

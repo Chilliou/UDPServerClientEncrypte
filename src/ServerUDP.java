@@ -23,27 +23,20 @@ public class ServerUDP
 			byte[] buf = new byte[taille];
 			DatagramPacket dp = new DatagramPacket (buf, 1024);
 			DatagramPacket envoi = new DatagramPacket (buf, 1024);
-
-
-			String banniere = "Bienvue sur le serveur de Chilliou";
-			byte[] arBuffer = banniere.getBytes ();
-			DatagramPacket banniereDP = new DatagramPacket (arBuffer, arBuffer.length, dp.getAddress (), dp.getPort ());
-			ds.send (banniereDP);
-
-
 			ds.receive (dp);
 
 			System.out.println ("informations client :   ip = " + dp.getAddress ().getHostAddress ());
 			System.out.println ("informations client : port = " + dp.getPort ());
 
 			String strRecuEncrypt = new String (dp.getData (), 0, dp.getLength ());
+			System.out.println(strRecuEncrypt);
 			String strRecuDecrypt = ac.decryptText (strRecuEncrypt,publicKey);
 
 
 			String m1 = "";
 
 
-			arBuffer = m1.getBytes ();
+			byte[] arBuffer = m1.getBytes ();
 
 			envoi = new DatagramPacket (arBuffer, arBuffer.length, dp.getAddress (), dp.getPort ());
 			ds.send (envoi);

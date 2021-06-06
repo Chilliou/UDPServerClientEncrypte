@@ -16,7 +16,7 @@ public class ClientUDP
 	public static void main(String[] args) throws Exception
 	{
 		AsymmetricCryptography ac = new AsymmetricCryptography();
-		PrivateKey privateKey = ac.getPrivate("KeyPair/privateKey");
+		PrivateKey privateKey = ac.getPrivate("../KeyPair/privateKey");
 
 		Scanner sc = new Scanner(System.in);
 		try

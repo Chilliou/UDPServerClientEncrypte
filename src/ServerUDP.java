@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.security.PublicKey;
 import java.util.ArrayList;
 
 public class ServerUDP
@@ -10,6 +11,8 @@ public class ServerUDP
 
 	public static void main (String[] args) throws Exception
 	{
+		AsymmetricCryptography ac = new AsymmetricCryptography();
+		PublicKey publicKey = ac.getPublic("KeyPair/publicKey");
 
 		DatagramSocket ds = new DatagramSocket (port);
 
@@ -25,7 +28,8 @@ public class ServerUDP
 			System.out.println ("informations client :   ip = " + dp.getAddress ().getHostAddress ());
 			System.out.println ("informations client : port = " + dp.getPort ());
 
-			String strRecu = new String (dp.getData (), 0, dp.getLength ());
+			String strRecuEncrypt = new String (dp.getData (), 0, dp.getLength ());
+			String strRecuDecrypt = ac.decryptText (strRecuEncrypt,publicKey);
 
 
 			String m1 = "";
@@ -37,8 +41,8 @@ public class ServerUDP
 			ds.send (envoi);
 
 
-			System.out.println ("Information recu: " + strRecu);
-			System.out.println ("Information envoyée : " + strRecu);
+			System.out.println ("Information recu: " + strRecuDecrypt);
+			System.out.println ("Information envoyée : " + strRecuDecrypt);
 
 		}
 	}

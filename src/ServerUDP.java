@@ -25,10 +25,10 @@ public class ServerUDP
 			DatagramPacket envoi = new DatagramPacket (buf, 1024);
 
 
-			String bannière = "Bienvue sur le serveur de Chilliou";
-			byte[] arBuffer = bannière.getBytes ();
-			DatagramPacket bannièreDP = new DatagramPacket (arBuffer, arBuffer.length, dp.getAddress (), dp.getPort ());
-			ds.send (bannièreDP);
+			String banniere = "Bienvue sur le serveur de Chilliou";
+			byte[] arBuffer = banniere.getBytes ();
+			DatagramPacket banniereDP = new DatagramPacket (arBuffer, arBuffer.length, dp.getAddress (), dp.getPort ());
+			ds.send (banniereDP);
 
 
 			ds.receive (dp);

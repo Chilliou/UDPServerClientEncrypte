@@ -12,7 +12,7 @@ public class ServerUDP
 	public static void main (String[] args) throws Exception
 	{
 		AsymmetricCryptography ac = new AsymmetricCryptography();
-		PublicKey publicKey = ac.getPublic("KeyPair/publicKey");
+		PublicKey publicKey = ac.getPublic("../KeyPair/publicKey");
 
 		DatagramSocket ds = new DatagramSocket (port);
 
@@ -23,6 +23,14 @@ public class ServerUDP
 			byte[] buf = new byte[taille];
 			DatagramPacket dp = new DatagramPacket (buf, 1024);
 			DatagramPacket envoi = new DatagramPacket (buf, 1024);
+
+
+			String bannière = "Bienvue sur le serveur de Chilliou";
+			byte[] arBuffer = bannière.getBytes ();
+			DatagramPacket bannièreDP = new DatagramPacket (arBuffer, arBuffer.length, dp.getAddress (), dp.getPort ());
+			ds.send (bannièreDP);
+
+
 			ds.receive (dp);
 
 			System.out.println ("informations client :   ip = " + dp.getAddress ().getHostAddress ());
@@ -35,7 +43,7 @@ public class ServerUDP
 			String m1 = "";
 
 
-			byte[] arBuffer = m1.getBytes ();
+			arBuffer = m1.getBytes ();
 
 			envoi = new DatagramPacket (arBuffer, arBuffer.length, dp.getAddress (), dp.getPort ());
 			ds.send (envoi);
